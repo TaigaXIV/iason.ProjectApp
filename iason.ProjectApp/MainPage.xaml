@@ -1,0 +1,68 @@
+﻿<Page
+    x:Class="iason.ProjectApp.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:iason.ProjectApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:view="using:ViewModel"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="NewProjectButton" Click="NewProjectButton_Click" Content="New Project" Style="{StaticResource AccentButtonStyle}" Margin="0,0,20,0"/>
+            <AutoSuggestBox Width="200" PlaceholderText="Search" QueryIcon="Find" Margin="0,0,20,0" HorizontalAlignment="Center" VerticalAlignment="Center" QuerySubmitted="AutoSuggestBox_QuerySubmitted" TextChanged="AutoSuggestBox_TextChanged"/>
+        </StackPanel>
+
+        <ListView ItemsSource="{x:Bind ViewModel.Projects, Mode=OneWay}"
+                  Grid.Row="1"
+                  Grid.Column="1">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="view:ProjectViewModel">
+                    <Grid BorderThickness="0,0,0,1" BorderBrush="DarkGray">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="250"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{x:Bind Id, Mode=OneWay}" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Text="{x:Bind Name, Mode=OneWay}" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="2" Text="{x:Bind DateCreatedExpression, Mode=OneWay}" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="3" Text="{x:Bind StatusExpression, Mode=OneWay}" VerticalAlignment="Center"/>
+                        <Button x:Name="ActionsButton" Style="{StaticResource AccentButtonStyle}" Grid.Column="4" Content="Actions" HorizontalAlignment="Right">
+                        <Button.Flyout>
+                            <MenuFlyout Placement="Bottom">
+                                <MenuFlyoutItem x:Load="{x:Bind IsAdmin, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" 
+                                                    x:Name="ListViewDetailsButton" Click="ListViewDetailsButton_Click" Text="Details" Style="{StaticResource AccentButtonStyle}" />
+                                <MenuFlyoutSeparator/>
+                                    <MenuFlyoutItem x:Load="{x:Bind IsAdmin, Mode=OneWay}" 
+                                                    x:Name="ListViewUpdateButton" Click="ListViewUpdateButton_Click" Text="Update" Style="{StaticResource AccentButtonStyle}" />
+                                    <MenuFlyoutSeparator/>
+                                    <MenuFlyoutItem x:Load="{x:Bind IsAdmin, Mode=OneWay}" 
+                                                    x:Name="ListViewDeleteButton" Click="ListViewDeleteButton_Click" Text="Delete" Style="{StaticResource AccentButtonStyle}" />
+                                </MenuFlyout>
+                        </Button.Flyout>
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+    </Grid>
+</Page>
