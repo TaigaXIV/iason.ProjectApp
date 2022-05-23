@@ -48,12 +48,11 @@
                         <Button x:Name="ActionsButton" Style="{StaticResource AccentButtonStyle}" Grid.Column="4" Content="Actions" HorizontalAlignment="Right">
                         <Button.Flyout>
                             <MenuFlyout Placement="Bottom">
-                                <MenuFlyoutItem x:Load="{x:Bind IsAdmin, Mode=OneWay, Converter={StaticResource BooleanInverterConverter}}" 
-                                                    x:Name="ListViewDetailsButton" Click="ListViewDetailsButton_Click" Text="Details" Style="{StaticResource AccentButtonStyle}" />
-                                <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem x:Name="ListViewDetailsButton" Click="ListViewDetailsButton_Click" Text="Details" Style="{StaticResource AccentButtonStyle}" />
+                                    <MenuFlyoutSeparator x:Name="Seperator1" x:Load="{x:Bind IsAdmin, Mode=OneWay}"/>
                                     <MenuFlyoutItem x:Load="{x:Bind IsAdmin, Mode=OneWay}" 
                                                     x:Name="ListViewUpdateButton" Click="ListViewUpdateButton_Click" Text="Update" Style="{StaticResource AccentButtonStyle}" />
-                                    <MenuFlyoutSeparator/>
+                                    <MenuFlyoutSeparator x:Name="Seperator2" x:Load="{x:Bind IsAdmin, Mode=OneWay}"/>
                                     <MenuFlyoutItem x:Load="{x:Bind IsAdmin, Mode=OneWay}" 
                                                     x:Name="ListViewDeleteButton" Click="ListViewDeleteButton_Click" Text="Delete" Style="{StaticResource AccentButtonStyle}" />
                                 </MenuFlyout>

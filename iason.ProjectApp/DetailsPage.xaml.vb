@@ -33,4 +33,12 @@ Public NotInheritable Class DetailsPage
     Private Sub BackButton_Click(sender As Object, e As RoutedEventArgs)
         ViewModel.TryGoBack()
     End Sub
+
+    Private Async Sub CreateEntryButton_Click(sender As Object, e As RoutedEventArgs)
+        Dim EntryDialogue As New NewEntryDialogue(ViewModel.CreateEntryViewModel())
+        Dim Result As ContentDialogResult = Await EntryDialogue.ShowAsync()
+        If Result = ContentDialogResult.Primary Then
+            ViewModel.InsertEntryViewModel(EntryDialogue.Entry)
+        End If
+    End Sub
 End Class

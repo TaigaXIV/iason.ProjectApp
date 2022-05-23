@@ -21,6 +21,7 @@
                 IsEnabled="{x:Bind Frame.CanGoBack, Mode=OneWay}" 
                 ToolTipService.ToolTip="Back"
                     Margin="10"/>
+            <Button x:Name="CreateEntryButton" Click="CreateEntryButton_Click" Content="Create new Entry" Style="{StaticResource AccentButtonStyle}"/>
             <TextBlock FontSize="36" FontWeight="Bold" Text="{x:Bind Name}" Margin="10"/>
         </StackPanel>
 

@@ -40,4 +40,14 @@ Public Class DetailsViewModel
         Return False
     End Function
 
+    Public Function CreateEntryViewModel()
+        Dim NewProject As New EntryViewModel(New Entry)
+
+        Return NewProject
+    End Function
+
+    Public Sub InsertEntryViewModel(NewEntry As EntryViewModel)
+        Entries.Insert(0, NewEntry)
+    End Sub
+
 End Class
