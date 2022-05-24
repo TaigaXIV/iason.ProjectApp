@@ -5,13 +5,7 @@ Imports ViewModel
 Public NotInheritable Class NewEntryDialogue
     Inherits ContentDialog
 
-    Implements INotifyPropertyChanged
-#Region "INotifyPropertyChanged"
-    Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
-    Public Sub NotifyPropertyChanged(<CallerMemberName> Optional ByVal PropertyName As String = Nothing)
-        RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(PropertyName))
-    End Sub
-#End Region
+    Property ViewModel As NewEntryViewModel
 
     Sub New(Entry As EntryViewModel)
 
@@ -19,28 +13,11 @@ Public NotInheritable Class NewEntryDialogue
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        Me.Entry = Entry
+        ViewModel = New NewEntryViewModel(Entry)
     End Sub
 
-
-    Private _Entry As EntryViewModel
-    ''' <summary>
-    ''' Gets or sets 
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property Entry() As EntryViewModel
-        Get
-            Return _Entry
-        End Get
-        Set
-            If _Entry IsNot Value Then
-                _Entry = Value
-                NotifyPropertyChanged()
-            End If
-        End Set
-    End Property
-
     Private Sub ContentDialog_PrimaryButtonClick(sender As ContentDialog, args As ContentDialogButtonClickEventArgs)
+        ViewModel.InitializeNewEntry()
 
     End Sub
 

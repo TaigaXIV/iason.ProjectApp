@@ -1,14 +1,19 @@
 ﻿Imports Model
 
-Public Class EntryViewModel
+Public Class NewEntryViewModel
     Inherits ViewModelBase
 
-    Property Model As Entry
+    Dim Model As Entry
+    Sub New(Entry As EntryViewModel)
+        Me.Model = Entry.Model
 
-    Sub New(Entry As Entry)
-        Me.Model = Entry
-        SelectedUser = New UserViewModel(Entry.User)
     End Sub
+
+    Public ReadOnly Property Users As List(Of UserViewModel)
+        Get
+            Return User.GetUsers().Select(Of UserViewModel)(Function(u) New UserViewModel(u)).ToList()
+        End Get
+    End Property
 
     Property Id As Integer
         Get
@@ -42,16 +47,8 @@ Public Class EntryViewModel
             If Value <> StartTime Then
                 Model.StartTime = Value
                 NotifyPropertyChanged()
-                NotifyPropertyChanged(NameOf(StartTimeExpression))
-                NotifyPropertyChanged(NameOf(Duration))
             End If
         End Set
-    End Property
-
-    Public ReadOnly Property StartTimeExpression As String
-        Get
-            Return StartTime.ToString("hh\:mm")
-        End Get
     End Property
 
     Property EndTime As TimeSpan
@@ -62,34 +59,8 @@ Public Class EntryViewModel
             If Value <> EndTime Then
                 Model.EndTime = Value
                 NotifyPropertyChanged()
-                NotifyPropertyChanged(NameOf(EndTimeExpression))
-                NotifyPropertyChanged(NameOf(Duration))
             End If
         End Set
-    End Property
-
-    Property User As UserViewModel
-        Get
-            Return New UserViewModel(Model.User)
-        End Get
-        Set
-            If Value IsNot User Then
-                Model.User = Value.Model
-                NotifyPropertyChanged()
-            End If
-        End Set
-    End Property
-
-    Public ReadOnly Property EndTimeExpression As String
-        Get
-            Return EndTime.ToString("hh\:mm")
-        End Get
-    End Property
-
-    Public ReadOnly Property Duration As Integer
-        Get
-            Return EndTime.Hours - StartTime.Hours
-        End Get
     End Property
 
     Property CostPerHour As Integer
@@ -117,8 +88,33 @@ Public Class EntryViewModel
             If _SelectedUser IsNot Value Then
                 _SelectedUser = Value
                 NotifyPropertyChanged()
+
             End If
         End Set
     End Property
+
+    Private _NewEntry As EntryViewModel
+    ''' <summary>
+    ''' Gets or sets 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property NewEntry() As EntryViewModel
+        Get
+            Return _NewEntry
+        End Get
+        Set
+            If _NewEntry IsNot Value Then
+                _NewEntry = Value
+                NotifyPropertyChanged()
+            End If
+        End Set
+    End Property
+
+    Public Sub InitializeNewEntry()
+
+        NewEntry = New EntryViewModel(Model)
+        NewEntry.SelectedUser = SelectedUser
+        NewEntry.Model.User = SelectedUser.Model
+    End Sub
 
 End Class

@@ -77,9 +77,7 @@ Public Class MainPageViewModel
     End Sub
 
     Public Function CreateProjectViewModel()
-        Dim NewProject As New ProjectViewModel(New Project, IsAdmin) With {.Status = ProjectStatus.[New], .DateCreated = New DateTimeOffset(Date.Now)}
-
-        Return NewProject
+        Return New ProjectViewModel(New Project, IsAdmin) With {.Status = ProjectStatus.[New], .DateCreated = New DateTimeOffset(Date.Now)}
     End Function
 
     Public Sub InsertProjectViewModel(NewProject As ProjectViewModel)
@@ -96,6 +94,38 @@ Public Class MainPageViewModel
     Public Sub DeleteProject(Project As ProjectViewModel)
         Projects.Remove(Project)
         AllProjects.Remove(Project)
+    End Sub
+
+    Dim IsOrderedByDescending As Boolean
+
+    Public Sub SortById()
+        If IsOrderedByDescending Then
+            Projects = New ObservableCollection(Of ProjectViewModel)(Projects.OrderBy(Function(p) Convert.ToInt32(p.Id)).ToList)
+            IsOrderedByDescending = False
+        Else
+            Projects = New ObservableCollection(Of ProjectViewModel)(Projects.OrderByDescending(Function(p) Convert.ToInt32(p.Id)).ToList)
+            IsOrderedByDescending = True
+        End If
+    End Sub
+
+    Public Sub SortByProject()
+        If IsOrderedByDescending Then
+            Projects = New ObservableCollection(Of ProjectViewModel)(Projects.OrderBy(Function(p) p.Name).ToList)
+            IsOrderedByDescending = False
+        Else
+            Projects = New ObservableCollection(Of ProjectViewModel)(Projects.OrderByDescending(Function(p) p.Name).ToList)
+            IsOrderedByDescending = True
+        End If
+    End Sub
+
+    Public Sub SortByStatus()
+        If IsOrderedByDescending Then
+            Projects = New ObservableCollection(Of ProjectViewModel)(Projects.OrderBy(Function(p) p.Status).ToList)
+            IsOrderedByDescending = False
+        Else
+            Projects = New ObservableCollection(Of ProjectViewModel)(Projects.OrderByDescending(Function(p) p.Status).ToList)
+            IsOrderedByDescending = True
+        End If
     End Sub
 
 End Class

@@ -144,8 +144,10 @@
     <Compile Include="LoginPageViewModel.vb" />
     <Compile Include="MainPageViewModel.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="NewEntryViewModel.vb" />
     <Compile Include="ProjectViewModel.vb" />
     <Compile Include="UpdateDialogueViewModel.vb" />
+    <Compile Include="UserViewModel.vb" />
     <Compile Include="ViewModelBase.vb" />
     <EmbeddedResource Include="My Project\ViewModel.rd.xml" />
   </ItemGroup>

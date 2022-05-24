@@ -65,4 +65,20 @@ Public NotInheritable Class MainPage
             ViewModel.DeleteProject(Project)
         End If
     End Sub
+
+    Private Sub SortIdButton_Click(sender As Object, e As RoutedEventArgs)
+        ViewModel.SortById()
+    End Sub
+
+    Private Sub SortProjectButton_Click(sender As Object, e As RoutedEventArgs)
+        ViewModel.SortByProject()
+    End Sub
+
+    Private Sub SortDateButton_Click(sender As Object, e As RoutedEventArgs)
+
+    End Sub
+
+    Private Sub SortStatusButton_Click(sender As Object, e As RoutedEventArgs)
+        ViewModel.SortByStatus()
+    End Sub
 End Class

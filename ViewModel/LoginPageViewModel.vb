@@ -8,7 +8,7 @@ Public Class LoginPageViewModel
     Public Event LoginRequested(Value As Boolean)
     Public Event LoginFailed()
 
-    Private _Email As String = "k.admin@online.com"
+    Private _Email As String = "k.user@online.com"
     ''' <summary>
     ''' Gets or sets 
     ''' </summary>
@@ -25,7 +25,7 @@ Public Class LoginPageViewModel
         End Set
     End Property
 
-    Private _Password As String = "adminpassword"
+    Private _Password As String = "userpassword"
     ''' <summary>
     ''' Gets or sets 
     ''' </summary>

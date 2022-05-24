@@ -7,15 +7,6 @@ Imports ViewModel
 Public NotInheritable Class DetailsPage
     Inherits Page
 
-    Implements INotifyPropertyChanged
-#Region "INotifyPropertyChanged"
-    Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
-    Public Sub NotifyPropertyChanged(<CallerMemberName> Optional ByVal PropertyName As String = Nothing)
-        RaiseEvent PropertyChanged(Me, New PropertyChangedEventArgs(PropertyName))
-    End Sub
-#End Region
-
-
     Dim ViewModel As DetailsViewModel
 
     Protected Overrides Sub OnNavigatedTo(e As NavigationEventArgs)
@@ -38,7 +29,32 @@ Public NotInheritable Class DetailsPage
         Dim EntryDialogue As New NewEntryDialogue(ViewModel.CreateEntryViewModel())
         Dim Result As ContentDialogResult = Await EntryDialogue.ShowAsync()
         If Result = ContentDialogResult.Primary Then
-            ViewModel.InsertEntryViewModel(EntryDialogue.Entry)
+            ViewModel.InsertEntryViewModel(EntryDialogue.ViewModel.NewEntry)
+            ViewModel.CalculateTotalCosts()
         End If
+    End Sub
+
+    Private Sub SortEndButton_Click(sender As Object, e As RoutedEventArgs)
+        ViewModel.SortByEnd()
+    End Sub
+
+    Private Sub SortStartButton_Click(sender As Object, e As RoutedEventArgs)
+        ViewModel.SortByStart()
+    End Sub
+
+    Private Sub SortDescriptionButton_Click(sender As Object, e As RoutedEventArgs)
+        ViewModel.SortByDescription()
+    End Sub
+
+    Private Sub SortIdButton_Click(sender As Object, e As RoutedEventArgs)
+        ViewModel.SortById()
+    End Sub
+
+    Private Sub SortDurationButton_Click(sender As Object, e As RoutedEventArgs)
+        ViewModel.SortByDuration()
+    End Sub
+
+    Private Sub SortCostButton_Click(sender As Object, e As RoutedEventArgs)
+        ViewModel.SortByCost()
     End Sub
 End Class

@@ -12,7 +12,9 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
+            <RowDefinition Height="40"/>
             <RowDefinition/>
+            <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
         
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
@@ -25,8 +27,38 @@
             <TextBlock FontSize="36" FontWeight="Bold" Text="{x:Bind Name}" Margin="10"/>
         </StackPanel>
 
+        <Grid Grid.Row="1" Margin="10,0" BorderBrush="DarkGray" BorderThickness="0,0,0,1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <HyperlinkButton x:Name="SortIdButton" Click="SortIdButton_Click">
+                <TextBlock Text="Id" Foreground="White"/>
+            </HyperlinkButton>
+            <HyperlinkButton Grid.Column="1" x:Name="SortDescButton" Click="SortDescriptionButton_Click">
+                <TextBlock Text="Description" Foreground="White"/>
+            </HyperlinkButton>
+            <HyperlinkButton Grid.Column="2" x:Name="SortStartButton" Click="SortStartButton_Click">
+                <TextBlock Text="Start Time" Foreground="White"/>
+            </HyperlinkButton>
+            <HyperlinkButton Grid.Column="3" x:Name="SortEndButton" Click="SortEndButton_Click">
+                <TextBlock Text="End Time" Foreground="White"/>
+            </HyperlinkButton>
+            <HyperlinkButton Grid.Column="4" x:Name="SortDurationButton" Click="SortDurationButton_Click">
+                <TextBlock Text="Duration" Foreground="White"/>
+            </HyperlinkButton>
+            <HyperlinkButton Grid.Column="5" x:Name="SortCostButton" Click="SortCostButton_Click">
+                <TextBlock Text="Cost per Hour" Foreground="White"/>
+            </HyperlinkButton>
+        </Grid>
+
         <ListView ItemsSource="{x:Bind ViewModel.Entries, Mode=OneWay}"
-                  Grid.Row="1">
+                  Grid.Row="2">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -36,8 +68,10 @@
                 <DataTemplate x:DataType="view:EntryViewModel">
                     <Grid BorderThickness="0,0,0,1" BorderBrush="DarkGray">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="80"/>
                             <ColumnDefinition Width="250"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
@@ -46,10 +80,19 @@
                         <TextBlock Grid.Column="1" Text="{x:Bind Description, Mode=OneWay}" VerticalAlignment="Center"/>
                         <TextBlock Grid.Column="2" Text="{x:Bind StartTimeExpression, Mode=OneWay}" VerticalAlignment="Center"/>
                         <TextBlock Grid.Column="3" Text="{x:Bind EndTimeExpression, Mode=OneWay}" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Column="4" Text="Name Placeholder" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="4" Text="{x:Bind Duration, Mode=OneWay}" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="5" Text="{x:Bind CostPerHour, Mode=OneWay}" VerticalAlignment="Center"/>
+                        <Grid Grid.Column="6">
+                            <Ellipse Fill="DarkOrchid" Height="45" Width="45" StrokeThickness="2" Stroke="Black" Margin="10"/>
+                            <TextBlock Text="{x:Bind SelectedUser, Mode=OneWay}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <StackPanel Grid.Row="3" VerticalAlignment="Center" Orientation="Horizontal">
+            <TextBlock FontSize="24" Text="Total Cost:" Margin="10,0"/>
+            <TextBlock FontSize="24" Text="{x:Bind ViewModel.EntryTotalCosts, Mode=OneWay}" Margin="10,0"/>
+        </StackPanel>
     </Grid>
 </Page>

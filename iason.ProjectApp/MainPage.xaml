@@ -12,6 +12,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
+            <RowDefinition Height="40"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -22,9 +23,30 @@
             <Button x:Name="NewProjectButton" Click="NewProjectButton_Click" Content="New Project" Style="{StaticResource AccentButtonStyle}" Margin="0,0,20,0"/>
             <AutoSuggestBox Width="200" PlaceholderText="Search" QueryIcon="Find" Margin="0,0,20,0" HorizontalAlignment="Center" VerticalAlignment="Center" QuerySubmitted="AutoSuggestBox_QuerySubmitted" TextChanged="AutoSuggestBox_TextChanged"/>
         </StackPanel>
+        <Grid Grid.Row="1" Margin="10,0" BorderBrush="DarkGray" BorderThickness="0,0,0,1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <HyperlinkButton x:Name="SortIdButton" Click="SortIdButton_Click">
+                <TextBlock Text="Id" Foreground="White"/>
+            </HyperlinkButton>
+            <HyperlinkButton Grid.Column="1" x:Name="SortProjectButton" Click="SortProjectButton_Click">
+                <TextBlock Text="Project" Foreground="White"/>
+            </HyperlinkButton>
+            <HyperlinkButton Grid.Column="2" x:Name="SortDateButton" Click="SortDateButton_Click">
+                <TextBlock Text="Date Created" Foreground="White"/>
+            </HyperlinkButton>
+            <HyperlinkButton Grid.Column="3" x:Name="SortStatusButton" Click="SortStatusButton_Click">
+                <TextBlock Text="Status" Foreground="White"/>
+            </HyperlinkButton>
+        </Grid>
 
         <ListView ItemsSource="{x:Bind ViewModel.Projects, Mode=OneWay}"
-                  Grid.Row="1"
+                  Grid.Row="2"
                   Grid.Column="1">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
@@ -35,7 +57,7 @@
                 <DataTemplate x:DataType="view:ProjectViewModel">
                     <Grid BorderThickness="0,0,0,1" BorderBrush="DarkGray">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="80"/>
                             <ColumnDefinition Width="250"/>
                             <ColumnDefinition/>
                             <ColumnDefinition/>

@@ -13,10 +13,11 @@
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
 
     <StackPanel Margin="10">
-        <TextBox Header="Id" Text="{x:Bind Entry.Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
-        <TextBox Header="Description" Text="{x:Bind Entry.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
-        <TextBox Header="Start Time" Text="{x:Bind Entry.StartTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
-        <TextBox Header="End Time" Text="{x:Bind Entry.EndTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
-        <TextBox Header="Cost per Hour" Text="{x:Bind Entry.CostPerHour, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
+        <TextBox Header="Id" Text="{x:Bind ViewModel.Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
+        <TextBox Header="Description" Text="{x:Bind ViewModel.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
+        <TimePicker Header="Start Time" ClockIdentifier="24HourClock" SelectedTime="{x:Bind ViewModel.StartTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
+        <TimePicker Header="End Time" ClockIdentifier="24HourClock" SelectedTime="{x:Bind ViewModel.EndTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
+        <TextBox Header="Cost per Hour" Text="{x:Bind ViewModel.CostPerHour, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
+        <ComboBox Header="User" ItemsSource="{x:Bind ViewModel.Users, Mode=OneWay}" SelectedValue="{x:Bind ViewModel.SelectedUser, Mode=TwoWay}"/>
     </StackPanel>
 </ContentDialog>
