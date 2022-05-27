@@ -1,4 +1,5 @@
-﻿Imports System.Reflection
+﻿Imports System.ComponentModel
+Imports System.Reflection
 
 Public Module Functions
     ''' <summary>

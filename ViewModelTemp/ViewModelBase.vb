@@ -1,4 +1,7 @@
-﻿Public Class ViewModelBase
+﻿Imports System.ComponentModel
+Imports System.Runtime.CompilerServices
+
+Public Class ViewModelBase
     Implements INotifyPropertyChanged
 #Region "INotifyPropertyChanged"
     Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged

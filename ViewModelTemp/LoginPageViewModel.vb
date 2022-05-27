@@ -8,9 +8,9 @@ Public Class LoginPageViewModel
     Public Event LoginRequested(Value As Boolean)
     Public Event LoginFailed()
 
-    Private _Email As String = "k.user@online.com"
+    Private _Email As String = "k.admin@online.com"
     ''' <summary>
-    ''' Gets or sets 
+    ''' Gets or sets the user email
     ''' </summary>
     ''' <returns></returns>
     Public Property Email() As String
@@ -25,9 +25,9 @@ Public Class LoginPageViewModel
         End Set
     End Property
 
-    Private _Password As String = "userpassword"
+    Private _Password As String = "adminpassword"
     ''' <summary>
-    ''' Gets or sets 
+    ''' Gets or sets the user password
     ''' </summary>
     ''' <returns></returns>
     Public Property Password() As String
@@ -42,13 +42,22 @@ Public Class LoginPageViewModel
         End Set
     End Property
 
+    ''' <summary>
+    ''' Checks if the Login is valid if the SubmitButton is clicked on LoginPage
+    ''' </summary>
+    ''' <param name="Email"></param>
+    ''' <param name="Password"></param>
+    ''' <returns></returns>
     Public Function IsLoginValid(Email As String, Password As String) As Boolean
-        Return Model.GetUsers().Any(Function(u) u.Email.ToLower = Email.ToLower AndAlso u.Password = Password)
+        If String.IsNullOrEmpty(Email) OrElse String.IsNullOrEmpty(Password) Then
+            Return False
+        End If
+        Return Model.GetUsers().Any(Function(U) U.Email.ToLower.Trim = Email.ToLower.Trim AndAlso U.Password = Password)
     End Function
 
-    Public Sub SubmitButton()
+    Public Sub SubmitLogin()
         If IsLoginValid(Email, Password) Then
-            If Email.ToLower.Contains("admin".ToLower) Then
+            If Email.ToLower.Contains("admin".ToLower) Then     ' <- dont do this in real world problems!
                 RaiseEvent LoginRequested(True)
             Else
                 RaiseEvent LoginRequested(False)

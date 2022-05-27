@@ -34,6 +34,29 @@ Public NotInheritable Class DetailsPage
         End If
     End Sub
 
+    Private Async Sub ListViewUpdateButton_Click(sender As Object, e As RoutedEventArgs)
+        Dim EntryUpdate As EntryViewModel = CType(sender, MenuFlyoutItem).DataContext
+        Dim UpdateEntryDialogue As New NewEntryDialogue(EntryUpdate)
+        Dim Result As ContentDialogResult = Await UpdateEntryDialogue.ShowAsync()
+        If Result = ContentDialogResult.Primary Then
+            ViewModel.UpdateEntryViewModel(EntryUpdate)
+        End If
+    End Sub
+
+    Private Async Sub ListViewDeleteButton_Click(sender As Object, e As RoutedEventArgs)
+        Dim Entry As EntryViewModel = CType(sender, MenuFlyoutItem).DataContext
+        Dim Dialog As New ContentDialog With {
+            .Title = "Warning!",
+            .Content = "Are you sure you want to delete this Project?",
+            .PrimaryButtonText = "Yes",
+            .SecondaryButtonText = "No"
+        }
+        Dim Result As ContentDialogResult = Await Dialog.ShowAsync()
+        If Result = ContentDialogResult.Primary Then
+            ViewModel.DeleteEntry(Entry)
+        End If
+    End Sub
+
     Private Sub SortEndButton_Click(sender As Object, e As RoutedEventArgs)
         ViewModel.SortByEnd()
     End Sub

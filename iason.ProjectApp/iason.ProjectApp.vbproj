@@ -131,6 +131,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\BooleanInverterConverter.vb" />
+    <Compile Include="Converters\StringToVisibilityConverter.vb" />
     <Compile Include="DetailsPage.xaml.vb">
       <DependentUpon>DetailsPage.xaml</DependentUpon>
     </Compile>
@@ -232,8 +233,8 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ViewModel\ViewModel.vbproj">
-      <Project>{4a7b7399-cdb2-4bf4-b7fb-eecb200bafc9}</Project>
+    <ProjectReference Include="..\ViewModelTemp\ViewModel.vbproj">
+      <Project>{c6fc3d72-4846-47ef-a92b-316e0e797e5c}</Project>
       <Name>ViewModel</Name>
     </ProjectReference>
   </ItemGroup>

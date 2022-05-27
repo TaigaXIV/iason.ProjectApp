@@ -36,6 +36,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <HyperlinkButton x:Name="SortIdButton" Click="SortIdButton_Click">
                 <TextBlock Text="Id" Foreground="White"/>
@@ -75,24 +76,34 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
+                            <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{x:Bind Id, Mode=OneWay}" VerticalAlignment="Center"/>
                         <TextBlock Grid.Column="1" Text="{x:Bind Description, Mode=OneWay}" VerticalAlignment="Center"/>
                         <TextBlock Grid.Column="2" Text="{x:Bind StartTimeExpression, Mode=OneWay}" VerticalAlignment="Center"/>
                         <TextBlock Grid.Column="3" Text="{x:Bind EndTimeExpression, Mode=OneWay}" VerticalAlignment="Center"/>
                         <TextBlock Grid.Column="4" Text="{x:Bind Duration, Mode=OneWay}" VerticalAlignment="Center"/>
-                        <TextBlock Grid.Column="5" Text="{x:Bind CostPerHour, Mode=OneWay}" VerticalAlignment="Center"/>
+                        <TextBlock Grid.Column="5" Text="{x:Bind CostPerHourExpression, Mode=OneWay}" VerticalAlignment="Center"/>
                         <Grid Grid.Column="6">
                             <Ellipse Fill="DarkOrchid" Height="45" Width="45" StrokeThickness="2" Stroke="Black" Margin="10"/>
-                            <TextBlock Text="{x:Bind SelectedUser, Mode=OneWay}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <TextBlock Text="{x:Bind SelectedUserExpression, Mode=OneWay}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
+                        <Button Style="{StaticResource AccentButtonStyle}" Grid.Column="7" Content="Actions" HorizontalAlignment="Right">
+                            <Button.Flyout>
+                                <MenuFlyout Placement="Bottom">
+                                    <MenuFlyoutItem x:Name="ListViewUpdateButton" Click="ListViewUpdateButton_Click" Text="Update" Style="{StaticResource AccentButtonStyle}" />
+                                    <MenuFlyoutSeparator x:Name="Seperator2"/>
+                                    <MenuFlyoutItem x:Name="ListViewDeleteButton" Click="ListViewDeleteButton_Click" Text="Delete" Style="{StaticResource AccentButtonStyle}" />
+                                </MenuFlyout>
+                            </Button.Flyout>
+                        </Button>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
         <StackPanel Grid.Row="3" VerticalAlignment="Center" Orientation="Horizontal">
-            <TextBlock FontSize="24" Text="Total Cost:" Margin="10,0"/>
-            <TextBlock FontSize="24" Text="{x:Bind ViewModel.EntryTotalCosts, Mode=OneWay}" Margin="10,0"/>
+            <TextBlock FontSize="24" Text="Total Cost:" Visibility="{x:Bind ViewModel.EntryTotalCostsExpression, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}}" Margin="10,0"/>
+            <TextBlock FontSize="24" Text="{x:Bind ViewModel.EntryTotalCostsExpression, Mode=OneWay}" Visibility="{x:Bind ViewModel.EntryTotalCostsExpression, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}}" Margin="10,0"/>
         </StackPanel>
     </Grid>
 </Page>

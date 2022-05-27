@@ -62,7 +62,7 @@ Public Class UpdateDialogueViewModel
 
     Private _ProjectStatusSelectedIndex As Integer = -1
     ''' <summary>
-    ''' Gets or sets 
+    ''' Gets or sets the index of projectstatus
     ''' </summary>
     ''' <returns></returns>
     Public Property ProjectStatusSelectedIndex() As Integer

@@ -10,6 +10,10 @@ Public Class ProjectViewModel
         Me.IsAdmin = IsAdmin
     End Sub
 
+    ''' <summary>
+    ''' gets or sets the Id of project
+    ''' </summary>
+    ''' <returns></returns>
     Property Id As Integer
         Get
             Return Model.Id
@@ -22,6 +26,10 @@ Public Class ProjectViewModel
         End Set
     End Property
 
+    ''' <summary>
+    ''' gets or sets Name of project
+    ''' </summary>
+    ''' <returns></returns>
     Property Name As String
         Get
             Return Model.Name
@@ -34,6 +42,10 @@ Public Class ProjectViewModel
         End Set
     End Property
 
+    ''' <summary>
+    ''' gets or sets the creation date of project
+    ''' </summary>
+    ''' <returns></returns>
     Property DateCreated As DateTimeOffset
         Get
             Return Model.DateCreated
@@ -53,6 +65,10 @@ Public Class ProjectViewModel
         End Get
     End Property
 
+    ''' <summary>
+    ''' gets or sets the entries for the specified project
+    ''' </summary>
+    ''' <returns></returns>
     Property Entries As Entry
         Get
             Return Model.Entries
@@ -65,6 +81,10 @@ Public Class ProjectViewModel
         End Set
     End Property
 
+    ''' <summary>
+    ''' gets or sets the status of project
+    ''' </summary>
+    ''' <returns></returns>
     Property Status As ProjectStatus
         Get
             Return Model.Status

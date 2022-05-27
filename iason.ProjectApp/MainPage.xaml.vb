@@ -75,7 +75,7 @@ Public NotInheritable Class MainPage
     End Sub
 
     Private Sub SortDateButton_Click(sender As Object, e As RoutedEventArgs)
-
+        ViewModel.SortByDate()
     End Sub
 
     Private Sub SortStatusButton_Click(sender As Object, e As RoutedEventArgs)

@@ -12,6 +12,6 @@
         <TextBlock FontSize="24" FontWeight="Bold" Text="User Login:" Margin="0,0,0,20" HorizontalAlignment="Center" />
         <TextBox Header="Email:" Width="250" HorizontalAlignment="Center" Text="{x:Bind ViewModel.Email, Mode=TwoWay}"/>
         <PasswordBox Header="Password" Width="250" Margin="20" HorizontalAlignment="Center" Password="{x:Bind ViewModel.Password, Mode=TwoWay}"/>
-        <Button x:Name="LoginButton" FontSize="18" Content="Login" Click="{x:Bind ViewModel.SubmitButton, Mode=OneWay}" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Center"/>
+        <Button x:Name="LoginButton" FontSize="18" Content="Login" Click="{x:Bind ViewModel.SubmitLogin, Mode=OneWay}" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Center"/>
     </StackPanel>
 </Page>

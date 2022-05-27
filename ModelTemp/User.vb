@@ -9,7 +9,7 @@
     Public Shared Function GetUsers() As IEnumerable(Of User)
 
         Return New List(Of User) From {
-            New User With {.FirstName = "Kyle", .LastName = "Admin", .Email = "k.admin@online.com", .Password = "adminpassword", .IsAdmin = True},
+            New User With {.FirstName = "Kyle", .LastName = "Admin", .Email = "k.admin@online.com", .Password = "admiNp4sswoRd", .IsAdmin = True},
             New User With {.FirstName = "Vitali", .LastName = "User", .Email = "k.user@online.com", .Password = "userpassword", .IsAdmin = False}
         }
     End Function
