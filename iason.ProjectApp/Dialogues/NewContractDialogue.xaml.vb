@@ -2,7 +2,7 @@
 
 Imports ViewModel
 
-Public NotInheritable Class NewProjectDialogue
+Public NotInheritable Class NewContractDialogue
     Inherits ContentDialog
 
     Implements INotifyPropertyChanged
@@ -13,27 +13,27 @@ Public NotInheritable Class NewProjectDialogue
     End Sub
 #End Region
 
-    Sub New(Project As ProjectViewModel)
+    Sub New(Contract As ContractViewModel)
 
         ' This call is required by the designer.
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        Me.Project = Project
+        Me.Contract = Contract
     End Sub
 
-    Private _Project As ProjectViewModel
+    Private _Contract As ContractViewModel
     ''' <summary>
     ''' Gets or sets 
     ''' </summary>
     ''' <returns></returns>
-    Public Property Project() As ProjectViewModel
+    Public Property Contract() As ContractViewModel
         Get
-            Return _Project
+            Return _Contract
         End Get
         Set
-            If _Project IsNot Value Then
-                _Project = Value
+            If _Contract IsNot Value Then
+                _Contract = Value
                 NotifyPropertyChanged()
             End If
         End Set

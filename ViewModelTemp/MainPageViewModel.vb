@@ -6,7 +6,7 @@ Public Class MainPageViewModel
     Inherits ViewModelBase
 
     Sub New()
-
+        Contracts = New ObservableCollection(Of ContractViewModel)(Contract.GetContracts().Select(Function(c) New ContractViewModel(c)))
     End Sub
 
     Private Sub Projects_CollectionChanged(sender As Object, e As NotifyCollectionChangedEventArgs)
@@ -48,6 +48,23 @@ Public Class MainPageViewModel
     End Property
 
     Dim AllProjects As ObservableCollection(Of ProjectViewModel)
+
+    Private _Contracts As ObservableCollection(Of ContractViewModel)
+    ''' <summary>
+    ''' Gets or sets 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Contracts() As ObservableCollection(Of ContractViewModel)
+        Get
+            Return _Contracts
+        End Get
+        Set
+            If _Contracts IsNot Value Then
+                _Contracts = Value
+                NotifyPropertyChanged()
+            End If
+        End Set
+    End Property
 
     ''' <summary>
     ''' Loads projects into Observablecollection and sets the UserState(IsAdmin true/false) for logged-in user
@@ -95,7 +112,7 @@ Public Class MainPageViewModel
     ''' </summary>
     ''' <returns></returns>
     Public Function CreateProjectViewModel()
-        Return New ProjectViewModel(New Project, IsAdmin) With {.Status = ProjectStatus.[New], .DateCreated = New DateTimeOffset(Date.Now)}
+        Return New ProjectViewModel(New Project, IsAdmin, Contracts.ToList) With {.Status = ProjectStatus.[New], .DateCreated = New DateTimeOffset(Date.Now)}
     End Function
 
     ''' <summary>
@@ -125,6 +142,17 @@ Public Class MainPageViewModel
     Public Sub DeleteProject(Project As ProjectViewModel)
         Projects.Remove(Project)
         AllProjects.Remove(Project)
+    End Sub
+
+    ''' <summary>
+    ''' Creates a new Contract.
+    ''' </summary>
+    Public Function CreateNewContractViewModel()
+        Return New ContractViewModel(New Contract)
+    End Function
+
+    Public Sub CreateNewContract(NewContract As ContractViewModel)
+        Contracts.Insert(0, NewContract)
     End Sub
 
     ''' <summary>

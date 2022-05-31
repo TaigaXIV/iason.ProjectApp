@@ -25,7 +25,7 @@ Public Class LoginPageViewModel
         End Set
     End Property
 
-    Private _Password As String = "adminpassword"
+    Private _Password As String = "admiNp4sswoRd"
     ''' <summary>
     ''' Gets or sets the user password
     ''' </summary>

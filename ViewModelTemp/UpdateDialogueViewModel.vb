@@ -5,10 +5,13 @@ Public Class UpdateDialogueViewModel
 
     Dim Model As Project
 
-    Sub New(Project As ProjectViewModel)
+    Sub New(Project As ProjectViewModel, Optional Contracts As List(Of ContractViewModel) = Nothing)
         Me.Model = Project.Model
         ProjectStatusSelectedIndex = Project.Status
+        Me.Contracts = Contracts
     End Sub
+
+    Public ReadOnly Property Contracts As List(Of ContractViewModel)
 
     Property Id As Integer
         Get

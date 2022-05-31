@@ -9,7 +9,7 @@
   <Identity
     Name="a79ee418-0107-43cd-bfe0-7618d78cd4cf"
     Publisher="CN=FabianElsen"
-    Version="1.0.0.0" />
+    Version="1.0.3.0" />
 
   <mp:PhoneIdentity PhoneProductId="a79ee418-0107-43cd-bfe0-7618d78cd4cf" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

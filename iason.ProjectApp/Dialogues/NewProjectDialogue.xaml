@@ -15,5 +15,6 @@
     <StackPanel Margin="10">
         <TextBox Header="Project Id" Text="{x:Bind Project.Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
         <TextBox Header="Project Name" Text="{x:Bind Project.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
+        <ComboBox Header="Contract" ItemsSource="{x:Bind Project.Contracts, Mode=OneWay}" HorizontalAlignment="Stretch"/>
     </StackPanel>
 </ContentDialog>

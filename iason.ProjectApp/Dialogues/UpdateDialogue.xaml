@@ -17,5 +17,6 @@
         <TextBox Header="Name" Text="{x:Bind ViewModel.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <ComboBox Header="Status" ItemsSource="{x:Bind ViewModel.ProjectStatuses, Mode=OneWay}" SelectedIndex="{x:Bind ViewModel.ProjectStatusSelectedIndex, Mode=TwoWay}" HorizontalAlignment="Stretch"/>
         <DatePicker Header="Date Created" SelectedDate="{x:Bind ViewModel.DateCreated, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
+        <ComboBox Header="Contract" ItemsSource="{x:Bind ViewModel.Contracts, Mode=OneWay}" HorizontalAlignment="Stretch"/>
     </StackPanel>
 </ContentDialog>

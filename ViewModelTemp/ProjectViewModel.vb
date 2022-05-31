@@ -5,10 +5,13 @@ Public Class ProjectViewModel
 
     Property Model As Project
 
-    Sub New(Project As Project, IsAdmin As Boolean)
+    Sub New(Project As Project, IsAdmin As Boolean, Optional Contracts As List(Of ContractViewModel) = Nothing)
         Me.Model = Project
         Me.IsAdmin = IsAdmin
+        Me.Contracts = Contracts
     End Sub
+
+    Public ReadOnly Property Contracts As List(Of ContractViewModel)
 
     ''' <summary>
     ''' gets or sets the Id of project

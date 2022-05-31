@@ -18,7 +18,7 @@ Public NotInheritable Class MainPage
     End Sub
 
     Protected Overrides Sub OnNavigatedTo(e As NavigationEventArgs)
-        ViewModel.IsAdmin = e.Parameter
+        ViewModel.IsAdmin = CType(e.Parameter, Boolean)
         ViewModel.LoadProjects()
     End Sub
 
@@ -45,7 +45,7 @@ Public NotInheritable Class MainPage
 
     Private Async Sub ListViewUpdateButton_Click(sender As Object, e As RoutedEventArgs)
         Dim ProjectUpdate As ProjectViewModel = CType(sender, MenuFlyoutItem).DataContext
-        Dim UpdateProjectDialogue As New UpdateDialogue(ProjectUpdate)
+        Dim UpdateProjectDialogue As New UpdateDialogue(ProjectUpdate, ViewModel.Contracts.ToList)
         Dim Result As ContentDialogResult = Await UpdateProjectDialogue.ShowAsync()
         If Result = ContentDialogResult.Primary Then
             ViewModel.UpdateProjectViewModel(ProjectUpdate)
@@ -80,5 +80,13 @@ Public NotInheritable Class MainPage
 
     Private Sub SortStatusButton_Click(sender As Object, e As RoutedEventArgs)
         ViewModel.SortByStatus()
+    End Sub
+
+    Private Async Sub ListViewContractButton_Click(sender As Object, e As RoutedEventArgs)
+        Dim Dialogue As New NewContractDialogue(ViewModel.CreateNewContractViewModel())
+        Dim Result As ContentDialogResult = Await Dialogue.ShowAsync()
+        If Result = ContentDialogResult.Primary Then
+            ViewModel.CreateNewContract(Dialogue.Contract)
+        End If
     End Sub
 End Class

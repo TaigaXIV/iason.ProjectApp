@@ -1,15 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31727.386
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32519.379
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "iason.ProjectApp", "iason.ProjectApp\iason.ProjectApp.vbproj", "{479E6079-CEF9-40F1-AEC8-08FB64F77F24}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "iason.ProjectApp.Test", "iason.ProjectApp.Test\iason.ProjectApp.Test.vbproj", "{01D281E2-AEC4-4A26-8BB4-519EDA13F74B}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "iason.ProjectApp.Test", "iason.ProjectApp.Test\iason.ProjectApp.Test.vbproj", "{01D281E2-AEC4-4A26-8BB4-519EDA13F74B}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ViewModel", "ViewModelTemp\ViewModel.vbproj", "{C6FC3D72-4846-47EF-A92B-316E0E797E5C}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "ViewModel", "ViewModelTemp\ViewModel.vbproj", "{C6FC3D72-4846-47EF-A92B-316E0E797E5C}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Model", "ModelTemp\Model.vbproj", "{E54220CA-8199-46C3-A9DF-6579EA7E726D}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "ModelVbBackup", "ModelTemp\ModelVbBackup.vbproj", "{E54220CA-8199-46C3-A9DF-6579EA7E726D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "ModelCS\Model.csproj", "{119DDEBD-1824-40D8-BC66-8114DD4D4199}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -111,6 +113,26 @@ Global
 		{E54220CA-8199-46C3-A9DF-6579EA7E726D}.Release|x64.Build.0 = Release|Any CPU
 		{E54220CA-8199-46C3-A9DF-6579EA7E726D}.Release|x86.ActiveCfg = Release|Any CPU
 		{E54220CA-8199-46C3-A9DF-6579EA7E726D}.Release|x86.Build.0 = Release|Any CPU
+		{119DDEBD-1824-40D8-BC66-8114DD4D4199}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{119DDEBD-1824-40D8-BC66-8114DD4D4199}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{119DDEBD-1824-40D8-BC66-8114DD4D4199}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{119DDEBD-1824-40D8-BC66-8114DD4D4199}.Debug|ARM.Build.0 = Debug|Any CPU
+		{119DDEBD-1824-40D8-BC66-8114DD4D4199}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{119DDEBD-1824-40D8-BC66-8114DD4D4199}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{119DDEBD-1824-40D8-BC66-8114DD4D4199}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{119DDEBD-1824-40D8-BC66-8114DD4D4199}.Debug|x64.Build.0 = Debug|Any CPU
+		{119DDEBD-1824-40D8-BC66-8114DD4D4199}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{119DDEBD-1824-40D8-BC66-8114DD4D4199}.Debug|x86.Build.0 = Debug|Any CPU
+		{119DDEBD-1824-40D8-BC66-8114DD4D4199}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{119DDEBD-1824-40D8-BC66-8114DD4D4199}.Release|Any CPU.Build.0 = Release|Any CPU
+		{119DDEBD-1824-40D8-BC66-8114DD4D4199}.Release|ARM.ActiveCfg = Release|Any CPU
+		{119DDEBD-1824-40D8-BC66-8114DD4D4199}.Release|ARM.Build.0 = Release|Any CPU
+		{119DDEBD-1824-40D8-BC66-8114DD4D4199}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{119DDEBD-1824-40D8-BC66-8114DD4D4199}.Release|ARM64.Build.0 = Release|Any CPU
+		{119DDEBD-1824-40D8-BC66-8114DD4D4199}.Release|x64.ActiveCfg = Release|Any CPU
+		{119DDEBD-1824-40D8-BC66-8114DD4D4199}.Release|x64.Build.0 = Release|Any CPU
+		{119DDEBD-1824-40D8-BC66-8114DD4D4199}.Release|x86.ActiveCfg = Release|Any CPU
+		{119DDEBD-1824-40D8-BC66-8114DD4D4199}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -13,7 +13,7 @@
             New Project With {.Id = 8, .Name = "Projectx 8", .DateCreated = New DateTimeOffset(Date.Now), .Status = ProjectStatus.Active},
             New Project With {.Id = 9, .Name = "Projectoy 9", .DateCreated = New DateTimeOffset(Date.Now), .Status = ProjectStatus.Active},
             New Project With {.Id = 10, .Name = "Projectai 10", .DateCreated = New DateTimeOffset(Date.Now), .Status = ProjectStatus.Active}
-        }
+        }.AsEnumerable
     End Function
 
 End Class
