@@ -13,6 +13,8 @@ Public NotInheritable Class NewProjectDialogue
     End Sub
 #End Region
 
+    Dim ViewModel As ProjectViewModel
+
     Sub New(Project As ProjectViewModel)
 
         ' This call is required by the designer.

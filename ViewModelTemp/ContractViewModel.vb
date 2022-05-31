@@ -33,8 +33,15 @@ Public Class ContractViewModel
             If Value <> StartDate Then
                 Model.StartDate = Value
                 NotifyPropertyChanged()
+                NotifyPropertyChanged(NameOf(StartDateExpression))
             End If
         End Set
+    End Property
+
+    Public ReadOnly Property StartDateExpression As String
+        Get
+            Return StartDate.ToString("dd'.'MM'.'yyyy")
+        End Get
     End Property
 
     Property EndDate As DateTimeOffset
@@ -45,8 +52,20 @@ Public Class ContractViewModel
             If Value <> EndDate Then
                 Model.EndDate = Value
                 NotifyPropertyChanged()
+                NotifyPropertyChanged(NameOf(EndDateExpression))
+
             End If
         End Set
     End Property
+
+    Public ReadOnly Property EndDateExpression As String
+        Get
+            Return EndDate.ToString("dd'.'MM'.'yyyy")
+        End Get
+    End Property
+
+    Public Overrides Function Equals(obj As Object) As Boolean
+        Return Me.Name = CType(obj, ContractViewModel).Name
+    End Function
 
 End Class

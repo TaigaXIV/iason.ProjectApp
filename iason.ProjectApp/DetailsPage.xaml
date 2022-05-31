@@ -16,7 +16,7 @@
             <RowDefinition/>
             <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
-        
+
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
             <Button x:Name="BackButton" Click="BackButton_Click"
                 Style="{StaticResource NavigationBackButtonNormalStyle}"
@@ -101,6 +101,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        
         <StackPanel Grid.Row="3" VerticalAlignment="Center" Orientation="Horizontal">
             <TextBlock FontSize="24" Text="Total Cost:" Visibility="{x:Bind ViewModel.EntryTotalCostsExpression, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}}" Margin="10,0"/>
             <TextBlock FontSize="24" Text="{x:Bind ViewModel.EntryTotalCostsExpression, Mode=OneWay}" Visibility="{x:Bind ViewModel.EntryTotalCostsExpression, Mode=OneWay, Converter={StaticResource StringToVisibilityConverter}}" Margin="10,0"/>

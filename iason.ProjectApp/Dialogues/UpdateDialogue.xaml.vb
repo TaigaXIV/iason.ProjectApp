@@ -17,10 +17,19 @@ Public NotInheritable Class UpdateDialogue
     End Sub
 
     Private Sub ContentDialog_PrimaryButtonClick(sender As ContentDialog, args As ContentDialogButtonClickEventArgs)
-
+        ViewModel.SetContract()
     End Sub
 
     Private Sub ContentDialog_SecondaryButtonClick(sender As ContentDialog, args As ContentDialogButtonClickEventArgs)
 
+    End Sub
+    Private Sub ContractComboBox_SelectionChanged(sender As Object, e As SelectionChangedEventArgs)
+        Dim Contract As ContractViewModel = CType(sender, ComboBox).SelectedItem
+        ViewModel.AddContract(Contract)
+    End Sub
+
+    Private Sub ListView_ItemClick(sender As Object, e As ItemClickEventArgs)
+        Dim Contract As ContractViewModel = e.ClickedItem
+        ViewModel.RemoveContract(Contract)
     End Sub
 End Class

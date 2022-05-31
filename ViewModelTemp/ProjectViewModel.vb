@@ -7,11 +7,25 @@ Public Class ProjectViewModel
 
     Sub New(Project As Project, IsAdmin As Boolean, Optional Contracts As List(Of ContractViewModel) = Nothing)
         Me.Model = Project
+        If Me.Model.Contracts Is Nothing Then
+            Me.Model.Contracts = New List(Of Contract)
+        End If
         Me.IsAdmin = IsAdmin
-        Me.Contracts = Contracts
     End Sub
 
-    Public ReadOnly Property Contracts As List(Of ContractViewModel)
+    'Public ReadOnly Property Contract As List(Of ContractViewModel)
+
+    Property Contracts As List(Of ContractViewModel)
+        Get
+            Return Model.Contracts.Select(Of ContractViewModel)(Function(c) New ContractViewModel(c)).ToList
+        End Get
+        Set
+            If Value IsNot Contracts Then
+                Model.Contracts = Value.Select(Of Contract)(Function(c) c.Model).ToList
+                NotifyPropertyChanged()
+            End If
+        End Set
+    End Property
 
     ''' <summary>
     ''' gets or sets the Id of project
