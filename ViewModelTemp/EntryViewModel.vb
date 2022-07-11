@@ -4,6 +4,7 @@ Public Class EntryViewModel
     Inherits ViewModelBase
 
     Property Model As Entry
+    Property UserService As New UserService
 
     Sub New(Entry As Entry)
         Me.Model = Entry
@@ -17,6 +18,18 @@ Public Class EntryViewModel
         Set
             If Value <> Id Then
                 Model.Id = Value
+                NotifyPropertyChanged()
+            End If
+        End Set
+    End Property
+
+    Property ProjectId As Integer
+        Get
+            Return Model.ProjectId
+        End Get
+        Set
+            If Value <> ProjectId Then
+                Model.ProjectId = Value
                 NotifyPropertyChanged()
             End If
         End Set
@@ -124,6 +137,7 @@ Public Class EntryViewModel
             If _SelectedUser IsNot Value Then
                 _SelectedUser = Value
                 NotifyPropertyChanged()
+                NotifyPropertyChanged(NameOf(SelectedUserExpression))
             End If
         End Set
     End Property

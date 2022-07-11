@@ -3,9 +3,13 @@
 Public Class LoginPageViewModel
     Inherits ViewModelBase
 
-    Dim Model As New User
+    Property UserService As IUserService
 
-    Public Event LoginRequested(Value As Boolean)
+    Sub New()
+        UserService = New UserService
+    End Sub
+
+    Public Event LoginRequested()
     Public Event LoginFailed()
 
     Private _Email As String = "k.admin@online.com"
@@ -48,23 +52,14 @@ Public Class LoginPageViewModel
     ''' <param name="Email"></param>
     ''' <param name="Password"></param>
     ''' <returns></returns>
-    Public Function IsLoginValid(Email As String, Password As String) As Boolean
-        If String.IsNullOrEmpty(Email) OrElse String.IsNullOrEmpty(Password) Then
-            Return False
-        End If
-        Return Model.GetUsers().Any(Function(U) U.Email.ToLower.Trim = Email.ToLower.Trim AndAlso U.Password = Password)
-    End Function
 
     Public Sub SubmitLogin()
-        If IsLoginValid(Email, Password) Then
-            If Email.ToLower.Contains("admin".ToLower) Then     ' <- dont do this in real world problems!
-                RaiseEvent LoginRequested(True)
-            Else
-                RaiseEvent LoginRequested(False)
-            End If
-        Else
+        Dim User = UserService.Login(Email, Password)
+        If User Is Nothing Then
             RaiseEvent LoginFailed()
+        Else
+            AppViewModel.CurrentUser = New UserViewModel(User)
+            RaiseEvent LoginRequested()
         End If
     End Sub
-
 End Class

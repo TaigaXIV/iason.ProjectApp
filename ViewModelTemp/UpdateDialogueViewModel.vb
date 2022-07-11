@@ -4,24 +4,48 @@ Imports Model
 Public Class UpdateDialogueViewModel
     Inherits ViewModelBase
 
+    Property ProjectService As New ProjectService
+    Property ContractService As New ContractService
+
     Dim Model As Project
 
-    Sub New(Project As ProjectViewModel, Optional Contracts As List(Of ContractViewModel) = Nothing)
+    Sub New(Project As ProjectViewModel)
         Me.Model = Project.Model
-        If Me.Model.Contracts Is Nothing Then
-            Me.Model.Contracts = New List(Of Contract)
-        End If
         ProjectStatusSelectedIndex = Project.Status
-        Me.Contracts = Contracts
-        If Project.Contracts IsNot Nothing AndAlso Project.Contracts.Any Then
-            ContractSelectedIndex = Contracts.IndexOf(Project.Contracts.First)
-        End If
-        If ProjectContracts Is Nothing Then
+        InitializeContracts()
+    End Sub
+
+    Private Sub InitializeContracts()
+        Dim ContractList = ContractService.List().AsEnumerable.Select(Function(C) New ContractViewModel(C))
+        Contracts = New ObservableCollection(Of ContractViewModel)(ContractList)
+        If Me.Model.ProjectContracts Is Nothing Then
+            Me.Model.ProjectContracts = New List(Of ProjectContract)
             ProjectContracts = New ObservableCollection(Of ContractViewModel)
+        Else
+            Dim ContractIds = Me.Model.ProjectContracts.Select(Of Integer)(Function(pc) pc.ContractId)
+            ProjectContracts = New ObservableCollection(Of ContractViewModel)(ContractList.Where(Function(c) ContractIds.Contains(c.Model.Id)))
+            For Each Contract As ContractViewModel In ProjectContracts
+                Contracts.Remove(Contract)
+            Next
         End If
     End Sub
 
-    Public ReadOnly Property Contracts As List(Of ContractViewModel)
+    Private _Contracts As ObservableCollection(Of ContractViewModel)
+    ''' <summary>
+    ''' Gets or sets 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property Contracts() As ObservableCollection(Of ContractViewModel)
+        Get
+            Return _Contracts
+        End Get
+        Set
+            If _Contracts IsNot Value Then
+                _Contracts = Value
+                NotifyPropertyChanged()
+            End If
+        End Set
+    End Property
 
     Private _ProjectContracts As ObservableCollection(Of ContractViewModel)
     ''' <summary>
@@ -35,18 +59,6 @@ Public Class UpdateDialogueViewModel
         Set
             If _ProjectContracts IsNot Value Then
                 _ProjectContracts = Value
-                NotifyPropertyChanged()
-            End If
-        End Set
-    End Property
-
-    Property Id As Integer
-        Get
-            Return Model.Id
-        End Get
-        Set
-            If Value <> Id Then
-                Model.Id = Value
                 NotifyPropertyChanged()
             End If
         End Set
@@ -125,17 +137,23 @@ Public Class UpdateDialogueViewModel
         End Set
     End Property
 
-    Public Sub SetContract()
-        Model.Contracts.Add(ProjectContracts(ContractSelectedIndex).Model)
-    End Sub
+    Public Function CreateNewProject() As ProjectViewModel
+        Dim Project As New Project With {.Name = Name, .Status = ProjectStatus.New, .DateCreated = New DateTimeOffset(Date.Now)}
+        Project.Id = ProjectService.Create(Project)
+        Model = Project
+        Return New ProjectViewModel(Project)
+    End Function
 
     Public Sub AddContract(Contract As ContractViewModel)
         Contracts.Remove(Contracts.FirstOrDefault(Function(c) c.Name = Contract.Name))
         ProjectContracts.Add(Contract)
+        Model.ProjectContracts.Add(New ProjectContract With {.ProjectId = Model.Id, .ContractId = Contract.Model.Id})
+        ContractSelectedIndex = -1
     End Sub
 
     Public Sub RemoveContract(Contract As ContractViewModel)
         Contracts.Insert(0, Contract)
+        Model.ProjectContracts.Remove(Model.ProjectContracts.FirstOrDefault(Function(pc) pc.ContractId = Contract.Model.Id))
         ProjectContracts.Remove(Contracts.FirstOrDefault(Function(c) c.Name = Contract.Name))
     End Sub
 End Class

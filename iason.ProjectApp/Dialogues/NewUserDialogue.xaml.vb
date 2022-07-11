@@ -2,22 +2,22 @@
 
 Imports ViewModel
 
-Public NotInheritable Class NewContractDialogue
+Public NotInheritable Class NewUserDialogue
     Inherits ContentDialog
 
-    Property ViewModel As ContractViewModel
+    Dim ViewModel As New NewUserDialogueViewModel
 
-    Sub New(Contract As ContractViewModel)
+    Sub New()
 
         ' This call is required by the designer.
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        Me.ViewModel = Contract
+
     End Sub
 
     Private Sub ContentDialog_PrimaryButtonClick(sender As ContentDialog, args As ContentDialogButtonClickEventArgs)
-        ViewModel.CreateNewContract()
+        ViewModel.CreateNewUser()
     End Sub
 
     Private Sub ContentDialog_SecondaryButtonClick(sender As ContentDialog, args As ContentDialogButtonClickEventArgs)

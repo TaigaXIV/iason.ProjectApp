@@ -28,7 +28,15 @@ Public NotInheritable Class LoginPage
         Await Dialog.ShowAsync()
     End Sub
 
-    Private Sub ViewModel_LoginRequested(Value As Boolean)
-        Frame.Navigate(GetType(MainPage), Value)
+    Private Sub ViewModel_LoginRequested()
+        Frame.Navigate(GetType(MainPage))
+    End Sub
+
+    Private Async Sub NewUserButton_Click(sender As Object, e As RoutedEventArgs)
+        Dim Dialogue As New NewUserDialogue()
+        Dim Result As ContentDialogResult = Await Dialogue.ShowAsync()
+        If Result = ContentDialogResult.Primary Then
+            Frame.Navigate(GetType(MainPage))
+        End If
     End Sub
 End Class

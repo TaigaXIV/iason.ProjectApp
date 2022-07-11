@@ -6,8 +6,8 @@
 
     <Application.Resources>
         <ResourceDictionary>
-            <local:BooleanInverterConverter x:Key="BooleanInverterConverter"/>
-            <local:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+            <local:BooleanInverterConverter x:Key="BooleanInverterConverter" />
+            <local:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

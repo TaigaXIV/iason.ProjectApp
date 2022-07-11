@@ -13,7 +13,7 @@ Public NotInheritable Class NewProjectDialogue
     End Sub
 #End Region
 
-    Dim ViewModel As ProjectViewModel
+    Dim ViewModel As UpdateDialogueViewModel
 
     Sub New(Project As ProjectViewModel)
 
@@ -22,6 +22,7 @@ Public NotInheritable Class NewProjectDialogue
 
         ' Add any initialization after the InitializeComponent() call.
         Me.Project = Project
+        Me.ViewModel = New UpdateDialogueViewModel(Project)
     End Sub
 
     Private _Project As ProjectViewModel
@@ -42,10 +43,22 @@ Public NotInheritable Class NewProjectDialogue
     End Property
 
     Private Sub ContentDialog_PrimaryButtonClick(sender As ContentDialog, args As ContentDialogButtonClickEventArgs)
-
+        Project = ViewModel.CreateNewProject()
     End Sub
 
     Private Sub ContentDialog_SecondaryButtonClick(sender As ContentDialog, args As ContentDialogButtonClickEventArgs)
 
+    End Sub
+
+    Private Sub ContractComboBox_SelectionChanged(sender As Object, e As SelectionChangedEventArgs)
+        Dim Contract As ContractViewModel = CType(sender, ComboBox).SelectedItem
+        If Contract IsNot Nothing Then
+            ViewModel.AddContract(Contract)
+        End If
+    End Sub
+
+    Private Sub ListView_ItemClick(sender As Object, e As ItemClickEventArgs)
+        Dim Contract As ContractViewModel = e.ClickedItem
+        ViewModel.RemoveContract(Contract)
     End Sub
 End Class

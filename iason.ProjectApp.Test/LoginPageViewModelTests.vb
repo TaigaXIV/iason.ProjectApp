@@ -1,132 +1,50 @@
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 Imports ViewModel
+Imports Moq
+Imports Model
 
 Namespace iason.ProjectApp.Test
+    Public Class MockManager
+        Property ArmoxInitialized As Boolean
+        Property Mocks As New Dictionary(Of Type, Object)
+
+
+
+        Function [Get](Of T As Class)() As Mock(Of T)
+            If Mocks.ContainsKey(GetType(T)) Then
+                Return Mocks(GetType(T))
+            Else
+                Dim Mock As New Mock(Of T)
+                Mocks.Add(GetType(T), Mock)
+                Return Mock
+            End If
+        End Function
+    End Class
+
     <TestClass>
     Public Class LoginPageViewModelTests
+        ReadOnly MockManager As New MockManager
+        Property ViewModel As New LoginPageViewModel
 
-        ''' <summary>
-        ''' email and password is invalid (false)
-        ''' </summary>
-        <TestMethod>
-        Sub IsLoginValid_EmailAndPasswordIsInvalid_False()
-            ' Arrange.
-            Dim ViewModel As New LoginPageViewModel
-
-            ' Act.
-            Dim Actual As Boolean = ViewModel.IsLoginValid("x@x.com", "xxx")
-
-            ' Assert.
-            Assert.IsFalse(Actual)
+        Private Sub SetupUserService(User As User)
+            Dim Mock = MockManager.Get(Of IUserService)
+            Mock.Setup(Of User)(Function(US) US.Login(It.IsAny(Of String), It.IsAny(Of String))).
+                Returns(Function() User)
+            ViewModel.UserService = Mock.Object
         End Sub
 
-        ''' <summary>
-        ''' email and password is valid (true)
-        ''' </summary>
-        <TestMethod>
-        Sub IsLoginValid_EmailAndPasswordIsValid_True()
-            ' Arrange. 
-            Dim ViewModel As New LoginPageViewModel
-
-            ' Act. 
-            Dim Actual As Boolean = ViewModel.IsLoginValid("k.user@online.com", "userpassword")
-
-            ' Assert. 
-            Assert.IsTrue(Actual)
+        <TestInitialize>
+        Sub Initialize()
+            'SetupUserService()
         End Sub
-
-        ''' <summary>
-        ''' email and password is null or whitespace (false)
-        ''' </summary>
-        <DataRow(Nothing, Nothing)>
-        <DataRow(" ", " ")>
         <TestMethod>
-        Sub IsLoginValid_EmailAndPasswordIsNullOrWhitespace_False(Email As String, Password As String)
+        Sub SubmitLogin_IsLoginRequested_RaisesEventWithTrue()
             ' Arrange. 
-            Dim ViewModel As New LoginPageViewModel
-
-            ' Act. 
-            Dim Actual As Boolean = ViewModel.IsLoginValid(Email, Password)
-
-            ' Assert. 
-            Assert.IsFalse(Actual)
-        End Sub
-
-        ''' <summary>
-        ''' email and password is empty (false)
-        ''' </summary>
-        <TestMethod>
-        Sub IsLoginValid_EmailAndPasswordIsEmpty_False()
-            ' Arrange. 
-            Dim ViewModel As New LoginPageViewModel
-
-            ' Act. 
-            Dim Actual As Boolean = ViewModel.IsLoginValid("", "")
-
-            ' Assert. 
-            Assert.IsFalse(Actual)
-        End Sub
-
-        ''' <summary>
-        ''' passwordcheck is casesensitive
-        ''' </summary>
-        <TestMethod>
-        Sub IsLoginValid_PasswordCheckIsCaseSensitive_False()
-            ' Arrange. 
-            Dim ViewModel As New LoginPageViewModel
-
-            ' Act. 
-            Dim Actual As Boolean = ViewModel.IsLoginValid("k.admin@online.com", "admiNp4ssword".ToUpper)
-
-            ' Assert. 
-            Assert.IsFalse(Actual)
-        End Sub
-
-        ''' <summary>
-        ''' email whitespaces trimmed (true)
-        ''' </summary>
-        <TestMethod>
-        Sub IsLoginValid_EmailWhitespacesAreTrimmed_True()
-            ' Arrange. 
-            Dim ViewModel As New LoginPageViewModel
-
-            ' Act. 
-            Dim Actual As Boolean = ViewModel.IsLoginValid(" k.admin@online.com ", "admiNp4sswoRd")
-
-
-            ' Assert. 
-            Assert.IsTrue(Actual)
-        End Sub
-
-        ''' <summary>
-        ''' email is lowerCase (true)
-        ''' </summary>
-        <TestMethod>
-        Sub IsLoginValid_EmailIsLowerCase_True()
-            ' Arrange. 
-            Dim ViewModel As New LoginPageViewModel
-
-            ' Act. 
-            Dim Actual As Boolean = ViewModel.IsLoginValid("k.AdMiN@oNlInE.CoM", "admiNp4sswoRd")
-
-            ' Assert. 
-            Assert.IsTrue(Actual)
-        End Sub
-
-
-        <TestMethod>
-        Sub SubmitLogin_IsUserAdmin_RaisesEventWithTrue()
-            ' Arrange. 
-            Dim ViewModel As New LoginPageViewModel
-            ViewModel.Email = "k.admin@online.com"
-            ViewModel.Password = "admiNp4sswoRd"
-
+            SetupUserService(New User)
             Dim WasEventRaised As Boolean
-            Dim EventParameter As Boolean
 
-            AddHandler ViewModel.LoginRequested, Sub(Value As Boolean)
+            AddHandler ViewModel.LoginRequested, Sub()
                                                      WasEventRaised = True
-                                                     EventParameter = Value
                                                  End Sub
 
             ' Act. 
@@ -134,39 +52,12 @@ Namespace iason.ProjectApp.Test
 
             ' Assert. 
             Assert.IsTrue(WasEventRaised)
-            Assert.IsTrue(EventParameter)
-        End Sub
-
-        <TestMethod>
-        Sub SubmitLogin_IsNotUserAdmin_RaisesEventWithFalse()
-            ' Arrange. 
-            Dim ViewModel As New LoginPageViewModel
-            ViewModel.Email = "k.user@online.com"
-            ViewModel.Password = "userpassword"
-
-            Dim WasEventRaised As Boolean
-            Dim EventParameter As Boolean
-
-            AddHandler ViewModel.LoginRequested, Sub(Value As Boolean)
-                                                     WasEventRaised = True
-                                                     EventParameter = Value
-                                                 End Sub
-
-            ' Act. 
-            ViewModel.SubmitLogin()
-
-            ' Assert. 
-            Assert.IsTrue(WasEventRaised)
-            Assert.IsFalse(EventParameter)
         End Sub
 
         <TestMethod>
         Sub SubmitLogin_IsLoginFailed_RaisesEventWithTrue()
             ' Arrange. 
-            Dim ViewModel As New LoginPageViewModel
-            ViewModel.Email = ""
-            ViewModel.Password = ""
-
+            SetupUserService(Nothing)
             Dim WasEventRaised As Boolean
 
             AddHandler ViewModel.LoginFailed, Sub()

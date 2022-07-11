@@ -1,5 +1,6 @@
 ﻿' The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
+Imports Newtonsoft.Json
 Imports ViewModel
 ''' <summary>
 ''' An empty page that can be used on its own or navigated to within a Frame.
@@ -15,11 +16,6 @@ Public NotInheritable Class MainPage
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-    End Sub
-
-    Protected Overrides Sub OnNavigatedTo(e As NavigationEventArgs)
-        ViewModel.IsAdmin = CType(e.Parameter, Boolean)
-        ViewModel.LoadProjects()
     End Sub
 
     Private Sub AutoSuggestBox_QuerySubmitted(sender As AutoSuggestBox, args As AutoSuggestBoxQuerySubmittedEventArgs)
@@ -45,10 +41,11 @@ Public NotInheritable Class MainPage
 
     Private Async Sub ListViewUpdateButton_Click(sender As Object, e As RoutedEventArgs)
         Dim ProjectUpdate As ProjectViewModel = CType(sender, MenuFlyoutItem).DataContext
-        Dim UpdateProjectDialogue As New UpdateDialogue(ProjectUpdate, ViewModel.Contracts.ToList)
+        Dim UpdateProjectDialogue As New UpdateDialogue(ProjectUpdate)
         Dim Result As ContentDialogResult = Await UpdateProjectDialogue.ShowAsync()
         If Result = ContentDialogResult.Primary Then
             ViewModel.UpdateProjectViewModel(ProjectUpdate)
+            ViewModel.ConvertProjectToJson(ProjectUpdate.Id)
         End If
     End Sub
 
@@ -85,8 +82,10 @@ Public NotInheritable Class MainPage
     Private Async Sub ListViewContractButton_Click(sender As Object, e As RoutedEventArgs)
         Dim Dialogue As New NewContractDialogue(ViewModel.CreateNewContractViewModel())
         Dim Result As ContentDialogResult = Await Dialogue.ShowAsync()
-        If Result = ContentDialogResult.Primary Then
-            ViewModel.CreateNewContract(Dialogue.Contract)
-        End If
+    End Sub
+
+    Private Sub ListView_ItemClick(sender As Object, e As ItemClickEventArgs)
+        Dim Project As ProjectViewModel = e.ClickedItem
+        ViewModel.ConvertProjectToJson(Project.Id)
     End Sub
 End Class

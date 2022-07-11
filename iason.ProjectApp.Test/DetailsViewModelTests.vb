@@ -1,17 +1,23 @@
-﻿Imports Microsoft.VisualStudio.TestTools.UnitTesting
+﻿Imports System.Collections.ObjectModel
+Imports Microsoft.VisualStudio.TestTools.UnitTesting
 Imports Model
 Imports ViewModel
 
 <TestClass>
 Public Class DetailsViewModelTests
-    Property ViewModel As DetailsViewModel
+    Dim ViewModel As DetailsViewModel
 
     <TestInitialize>
     Sub Initialize()
+        AppViewModel.CurrentUser = New UserViewModel(New User With {.IsAdmin = True})
         Dim Project As New Project With {.Id = 1}
         Dim IsAdmin As Boolean = True
-        Dim ProjectViewModel As New ProjectViewModel(Project, IsAdmin)
+        Dim ProjectViewModel As New ProjectViewModel(Project)
         ViewModel = New DetailsViewModel(ProjectViewModel)
+        ViewModel.Entries = New ObservableCollection(Of EntryViewModel)
+        ViewModel.Entries.Add(New EntryViewModel(New Entry With {.StartTime = New TimeSpan(15, 30, 0), .EndTime = New TimeSpan(14, 30, 0)}))
+        ViewModel.Entries.Add(New EntryViewModel(New Entry With {.StartTime = New TimeSpan(15, 30, 0), .EndTime = New TimeSpan(14, 30, 0)}))
+        ViewModel.Entries.Add(New EntryViewModel(New Entry With {.StartTime = New TimeSpan(15, 30, 0), .EndTime = New TimeSpan(14, 30, 0)}))
     End Sub
 
     <TestMethod>

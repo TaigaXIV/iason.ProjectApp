@@ -1,14 +1,34 @@
 ﻿Imports System.Collections.ObjectModel
 Imports Model
+Imports Newtonsoft.Json
 
 Public Class DetailsViewModel
     Inherits ViewModelBase
 
+    Property EntryService As New EntryService
+
     Sub New(Project As ProjectViewModel)
-        LoadEntries(Project.Id)
+        Me.Project = Project
+        LoadEntries()
         CalculateTotalCosts()
-        Name = Project.Name
     End Sub
+
+    Private _JsonText As String
+    ''' <summary>
+    ''' Gets or sets 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property JsonText() As String
+        Get
+            Return _JsonText
+        End Get
+        Set
+            If _JsonText <> Value Then
+                _JsonText = Value
+                NotifyPropertyChanged()
+            End If
+        End Set
+    End Property
 
     Private _Entries As ObservableCollection(Of EntryViewModel)
     ''' <summary>
@@ -51,30 +71,16 @@ Public Class DetailsViewModel
         End Get
     End Property
 
-    Public ReadOnly Property Name As String
+    Public ReadOnly Property Project As ProjectViewModel
 
     ''' <summary>
     ''' loads all entries of the project in a ListView
     ''' </summary>
     ''' <param name="Id"></param>
-    Public Sub LoadEntries(Id As Integer)
-        Entries = New ObservableCollection(Of EntryViewModel)(Entry.GetEntries(Id).Select(Function(e) New EntryViewModel(e)))
+    Public Sub LoadEntries()
+        Dim FetchEntries = EntryService.LoadAllEntriesForProject(Project.Id).AsEnumerable
+        Entries = New ObservableCollection(Of EntryViewModel)(FetchEntries.Select(Function(e) New EntryViewModel(e)))
     End Sub
-
-    ''' <summary>
-    ''' back button on DetailsPage
-    ''' </summary>
-    ''' <returns></returns>
-    Public Function TryGoBack() As Boolean
-        Throw New NotImplementedException
-        'Dim rootFrame As Frame = TryCast(Window.Current.Content, Frame)
-        'If rootFrame.CanGoBack Then
-        '    rootFrame.GoBack()
-        '    Return True
-        'End If
-
-        'Return False
-    End Function
 
     ''' <summary>
     ''' creates a new object of EntryViewModel
@@ -91,6 +97,7 @@ Public Class DetailsViewModel
     ''' </summary>
     ''' <param name="NewEntry"></param>
     Public Sub InsertEntryViewModel(NewEntry As EntryViewModel)
+        NewEntry.ProjectId = Project.Id
         If (NewEntry.EndTime.Hours - NewEntry.StartTime.Hours) >= 0 Then
             Entries.Insert(0, NewEntry)
         End If
@@ -103,6 +110,7 @@ Public Class DetailsViewModel
     Public Sub UpdateEntryViewModel(NewEntry As EntryViewModel)
         Dim i As Integer = Entries.IndexOf(NewEntry)
         If (NewEntry.EndTime.Hours - NewEntry.StartTime.Hours) >= 0 Then
+            EntryService.Update(NewEntry.Model)
             Entries.Remove(Entries.First(Function(p) p.Id = NewEntry.Id))
             NewEntry.SelectedUser = NewEntry.User
             Entries.Insert(i, NewEntry)
@@ -116,6 +124,7 @@ Public Class DetailsViewModel
     ''' <param name="Entry"></param>
     Public Sub DeleteEntry(Entry As EntryViewModel)
         Entries.Remove(Entry)
+        EntryService.Delete(Entry.Id)
     End Sub
 
     ''' <summary>
@@ -130,6 +139,14 @@ Public Class DetailsViewModel
 
         Return EntryTotalCosts
     End Function
+
+    'Public Sub ConvertEntriesToJson(ProjectId As Integer)
+    '    Dim SerializerSettings As JsonSerializerSettings = New JsonSerializerSettings()
+    '    SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+
+    '    Dim Project = ProjectService.LoadFullProject(ProjectId)
+    '    JsonText = JsonConvert.SerializeObject(Project, Formatting.Indented, SerializerSettings)
+    'End Sub
 
 
     ''' <summary>

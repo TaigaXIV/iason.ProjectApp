@@ -2,16 +2,45 @@
     x:Class="iason.ProjectApp.LoginPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:iason.ProjectApp"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:iason.ProjectApp"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
 
     <StackPanel VerticalAlignment="Center">
-        <TextBlock FontSize="24" FontWeight="Bold" Text="User Login:" Margin="0,0,0,20" HorizontalAlignment="Center" />
-        <TextBox Header="Email:" Width="250" HorizontalAlignment="Center" Text="{x:Bind ViewModel.Email, Mode=TwoWay}"/>
-        <PasswordBox Header="Password" Width="250" Margin="20" HorizontalAlignment="Center" Password="{x:Bind ViewModel.Password, Mode=TwoWay}"/>
-        <Button x:Name="LoginButton" FontSize="18" Content="Login" Click="{x:Bind ViewModel.SubmitLogin, Mode=OneWay}" Style="{StaticResource AccentButtonStyle}" HorizontalAlignment="Center"/>
+        <TextBlock
+            Margin="0,0,0,20"
+            HorizontalAlignment="Center"
+            FontSize="24"
+            FontWeight="Bold"
+            Text="User Login:" />
+        <TextBox
+            Width="250"
+            HorizontalAlignment="Center"
+            Header="Email:"
+            Text="{x:Bind ViewModel.Email, Mode=TwoWay}" />
+        <PasswordBox
+            Width="250"
+            Margin="20"
+            HorizontalAlignment="Center"
+            Header="Password"
+            Password="{x:Bind ViewModel.Password, Mode=TwoWay}" />
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button
+                x:Name="LoginButton"
+                HorizontalAlignment="Center"
+                Click="{x:Bind ViewModel.SubmitLogin, Mode=OneWay}"
+                Content="Login"
+                FontSize="18"
+                Style="{StaticResource AccentButtonStyle}" />
+            <Button
+                x:Name="NewUserButton"
+                Margin="30,0,0,0"
+                HorizontalAlignment="Center"
+                Click="NewUserButton_Click"
+                Content="Create New User"
+                FontSize="18" />
+        </StackPanel>
     </StackPanel>
 </Page>

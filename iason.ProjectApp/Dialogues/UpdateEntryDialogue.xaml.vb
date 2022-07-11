@@ -2,7 +2,7 @@
 
 Imports ViewModel
 
-Public NotInheritable Class NewEntryDialogue
+Public NotInheritable Class UpdateEntryDialogue
     Inherits ContentDialog
     Implements INotifyPropertyChanged
 #Region "INotifyPropertyChanged"
@@ -45,8 +45,7 @@ Public NotInheritable Class NewEntryDialogue
     End Sub
 
     Private Sub ContentDialog_PrimaryButtonClick(sender As ContentDialog, args As ContentDialogButtonClickEventArgs)
-        Entry = ViewModel.CreateNewEntry(ProjectId)
-        ViewModel.InitializeNewEntry()
+
     End Sub
 
     Private Sub ContentDialog_SecondaryButtonClick(sender As ContentDialog, args As ContentDialogButtonClickEventArgs)

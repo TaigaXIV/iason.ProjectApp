@@ -4,6 +4,7 @@ Public Class ContractViewModel
     Inherits ViewModelBase
 
     Property Model As Contract
+    Property ContractService As New ContractService
 
     Sub New(Contract As Contract)
         Me.Model = Contract
@@ -25,15 +26,19 @@ Public Class ContractViewModel
         End Set
     End Property
 
-    Property StartDate As DateTimeOffset
+    Private _StartDate As DateTimeOffset = New DateTimeOffset(Date.Now)
+    ''' <summary>
+    ''' Gets or sets 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property StartDate() As DateTimeOffset
         Get
-            Return Model.StartDate
+            Return _StartDate
         End Get
         Set
-            If Value <> StartDate Then
-                Model.StartDate = Value
+            If _StartDate <> Value Then
+                _StartDate = Value
                 NotifyPropertyChanged()
-                NotifyPropertyChanged(NameOf(StartDateExpression))
             End If
         End Set
     End Property
@@ -44,16 +49,19 @@ Public Class ContractViewModel
         End Get
     End Property
 
-    Property EndDate As DateTimeOffset
+    Private _EndDate As DateTimeOffset = New DateTimeOffset(Date.Now.AddDays(30))
+    ''' <summary>
+    ''' Gets or sets 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property EndDate() As DateTimeOffset
         Get
-            Return Model.EndDate
+            Return _EndDate
         End Get
         Set
-            If Value <> EndDate Then
-                Model.EndDate = Value
+            If _EndDate <> Value Then
+                _EndDate = Value
                 NotifyPropertyChanged()
-                NotifyPropertyChanged(NameOf(EndDateExpression))
-
             End If
         End Set
     End Property
@@ -67,5 +75,10 @@ Public Class ContractViewModel
     Public Overrides Function Equals(obj As Object) As Boolean
         Return Me.Name = CType(obj, ContractViewModel).Name
     End Function
+
+    Public Sub CreateNewContract()
+        Dim Contract As New Contract With {.Name = Name, .StartDate = StartDate, .EndDate = EndDate}
+        ContractService.Create(Contract)
+    End Sub
 
 End Class

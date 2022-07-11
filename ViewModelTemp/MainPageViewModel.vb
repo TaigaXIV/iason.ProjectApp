@@ -1,34 +1,39 @@
 ﻿Imports System.Collections.ObjectModel
 Imports System.Collections.Specialized
 Imports Model
+Imports Newtonsoft.Json
 
 Public Class MainPageViewModel
     Inherits ViewModelBase
 
+    Property ProjectService As New ProjectService
+
     Sub New()
-        Contracts = New ObservableCollection(Of ContractViewModel)(Contract.GetContracts().Select(Function(c) New ContractViewModel(c)))
+        Initialize()
     End Sub
 
-    Private Sub Projects_CollectionChanged(sender As Object, e As NotifyCollectionChangedEventArgs)
-        NotifyPropertyChanged(NameOf(Projects))
+    Private Sub Initialize()
+        LoadProjects()
     End Sub
 
-    Private _IsAdmin As Boolean
+    Private _JsonText As String
     ''' <summary>
-    ''' Gets or sets the status of users (true / false)
+    ''' Gets or sets 
     ''' </summary>
     ''' <returns></returns>
-    Public Property IsAdmin() As Boolean
+    Public Property JsonText() As String
         Get
-            Return _IsAdmin
+            Return _JsonText
         End Get
         Set
-            If _IsAdmin <> Value Then
-                _IsAdmin = Value
+            If _JsonText <> Value Then
+                _JsonText = Value
                 NotifyPropertyChanged()
             End If
         End Set
     End Property
+
+    Public ReadOnly Property IsAdmin As Boolean = AppViewModel.CurrentUser.IsAdmin
 
     Private _Projects As ObservableCollection(Of ProjectViewModel)
     ''' <summary>
@@ -47,32 +52,15 @@ Public Class MainPageViewModel
         End Set
     End Property
 
-    Dim AllProjects As ObservableCollection(Of ProjectViewModel)
-
-    Private _Contracts As ObservableCollection(Of ContractViewModel)
-    ''' <summary>
-    ''' Gets or sets 
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property Contracts() As ObservableCollection(Of ContractViewModel)
-        Get
-            Return _Contracts
-        End Get
-        Set
-            If _Contracts IsNot Value Then
-                _Contracts = Value
-                NotifyPropertyChanged()
-            End If
-        End Set
-    End Property
+    Property AllProjects As ObservableCollection(Of ProjectViewModel)
 
     ''' <summary>
     ''' Loads projects into Observablecollection and sets the UserState(IsAdmin true/false) for logged-in user
     ''' </summary>
     Public Sub LoadProjects()
-        Projects = New ObservableCollection(Of ProjectViewModel)(ProjectManager.GetProjects().Select(Function(P) New ProjectViewModel(P, IsAdmin)))
-        AddHandler Projects.CollectionChanged, AddressOf Projects_CollectionChanged
-        AllProjects = New ObservableCollection(Of ProjectViewModel)(ProjectManager.GetProjects().Select(Function(P) New ProjectViewModel(P, IsAdmin)))
+        Dim FetchProjects = ProjectService.LoadFullProjects().AsEnumerable
+        Projects = New ObservableCollection(Of ProjectViewModel)(FetchProjects.Select(Function(P) New ProjectViewModel(P)))
+        AllProjects = Projects
     End Sub
 
     ''' <summary>
@@ -112,7 +100,7 @@ Public Class MainPageViewModel
     ''' </summary>
     ''' <returns></returns>
     Public Function CreateProjectViewModel()
-        Return New ProjectViewModel(New Project, IsAdmin, Contracts.ToList) With {.Status = ProjectStatus.[New], .DateCreated = New DateTimeOffset(Date.Now)}
+        Return New ProjectViewModel(New Project) With {.Status = ProjectStatus.New, .DateCreated = New DateTimeOffset(Date.Now)}
     End Function
 
     ''' <summary>
@@ -129,9 +117,12 @@ Public Class MainPageViewModel
     ''' </summary>
     ''' <param name="NewProject"></param>
     Public Sub UpdateProjectViewModel(NewProject As ProjectViewModel)
-        Dim i As Integer = Projects.IndexOf(NewProject)
+        Dim I As Integer = Projects.IndexOf(NewProject)
+
+        ProjectService.Update(NewProject.Model)
+
         Projects.Remove(Projects.First(Function(p) p.Id = NewProject.Id))
-        Projects.Insert(i, NewProject)
+        Projects.Insert(I, NewProject)
         AllProjects = Projects
     End Sub
 
@@ -142,17 +133,21 @@ Public Class MainPageViewModel
     Public Sub DeleteProject(Project As ProjectViewModel)
         Projects.Remove(Project)
         AllProjects.Remove(Project)
+        ProjectService.Delete(Project.Id)
     End Sub
 
     ''' <summary>
     ''' Creates a new Contract.
     ''' </summary>
     Public Function CreateNewContractViewModel()
-        Return New ContractViewModel(New Contract)
+        Return New ContractViewModel(New Contract) With {.StartDate = New DateTimeOffset(Date.Now), .EndDate = New DateTimeOffset(Date.Now.AddDays(30))}
     End Function
 
-    Public Sub CreateNewContract(NewContract As ContractViewModel)
-        Contracts.Insert(0, NewContract)
+    Public Sub ConvertProjectToJson(ProjectId As Integer)
+        Dim SerializerSettings As JsonSerializerSettings = New JsonSerializerSettings()
+        SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        Dim Project = ProjectService.LoadFullProject(ProjectId)
+        JsonText = JsonConvert.SerializeObject(Project, Formatting.Indented, SerializerSettings)
     End Sub
 
     ''' <summary>

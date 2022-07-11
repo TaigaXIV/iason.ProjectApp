@@ -22,11 +22,14 @@ Public NotInheritable Class DetailsPage
     End Sub
 
     Private Sub BackButton_Click(sender As Object, e As RoutedEventArgs)
-        ViewModel.TryGoBack()
+        Dim RootFrame As Frame = TryCast(Window.Current.Content, Frame)
+        If RootFrame.CanGoBack Then
+            RootFrame.GoBack()
+        End If
     End Sub
 
     Private Async Sub CreateEntryButton_Click(sender As Object, e As RoutedEventArgs)
-        Dim EntryDialogue As New NewEntryDialogue(ViewModel.CreateEntryViewModel())
+        Dim EntryDialogue As New NewEntryDialogue(ViewModel.CreateEntryViewModel(), ViewModel.Project.Id)
         Dim Result As ContentDialogResult = Await EntryDialogue.ShowAsync()
         If Result = ContentDialogResult.Primary Then
             ViewModel.InsertEntryViewModel(EntryDialogue.ViewModel.NewEntry)
@@ -36,7 +39,7 @@ Public NotInheritable Class DetailsPage
 
     Private Async Sub ListViewUpdateButton_Click(sender As Object, e As RoutedEventArgs)
         Dim EntryUpdate As EntryViewModel = CType(sender, MenuFlyoutItem).DataContext
-        Dim UpdateEntryDialogue As New NewEntryDialogue(EntryUpdate)
+        Dim UpdateEntryDialogue As New UpdateEntryDialogue(EntryUpdate)
         Dim Result As ContentDialogResult = Await UpdateEntryDialogue.ShowAsync()
         If Result = ContentDialogResult.Primary Then
             ViewModel.UpdateEntryViewModel(EntryUpdate)
@@ -79,5 +82,9 @@ Public NotInheritable Class DetailsPage
 
     Private Sub SortCostButton_Click(sender As Object, e As RoutedEventArgs)
         ViewModel.SortByCost()
+    End Sub
+
+    Private Sub ListView_ItemClick(sender As Object, e As ItemClickEventArgs)
+
     End Sub
 End Class

@@ -15,6 +15,18 @@ Public Class UserViewModel
         End Get
     End Property
 
+    Public ReadOnly Property Id As Integer
+        Get
+            Return Model.Id
+        End Get
+    End Property
+
+    Public ReadOnly Property IsAdmin As Boolean
+        Get
+            Return Model.IsAdmin
+        End Get
+    End Property
+
     Public ReadOnly Property LastName As String
         Get
             Return Model.LastName

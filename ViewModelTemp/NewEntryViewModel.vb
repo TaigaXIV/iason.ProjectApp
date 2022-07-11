@@ -4,6 +4,8 @@ Public Class NewEntryViewModel
     Inherits ViewModelBase
 
     Dim Model As Entry
+    Property EntryService As New EntryService
+    Property UserService As New UserService
     Sub New(Entry As EntryViewModel)
         Me.Model = Entry.Model
         If Entry.SelectedUser IsNot Nothing Then
@@ -14,7 +16,7 @@ Public Class NewEntryViewModel
 
     Public ReadOnly Property Users As List(Of UserViewModel)
         Get
-            Return User.GetUsers().Select(Of UserViewModel)(Function(u) New UserViewModel(u)).ToList()
+            Return New List(Of UserViewModel)(UserService.List().Select(Function(U) New UserViewModel(U)))
         End Get
     End Property
 
@@ -105,7 +107,7 @@ Public Class NewEntryViewModel
             If _SelectedUser IsNot Value Then
                 _SelectedUser = Value
                 NotifyPropertyChanged()
-
+                Model.User = SelectedUser.Model
             End If
         End Set
     End Property
@@ -144,6 +146,14 @@ Public Class NewEntryViewModel
             End If
         End Set
     End Property
+
+    Public Function CreateNewEntry(ProjectId As Integer) As EntryViewModel
+        Dim Entry As New Entry With {.Description = Description, .StartTime = StartTime, .EndTime = EndTime, .CostPerHour = CostPerHour, .UserId = SelectedUser.Id, .ProjectId = ProjectId}
+        Entry.Id = EntryService.Create(Entry)
+        Model.Id = Entry.Id
+        Model = Entry
+        Return New EntryViewModel(Entry)
+    End Function
 
     Public Sub InitializeNewEntry()
 
